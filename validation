@@ -1,0 +1,51 @@
+/**
+ * validation.js
+ * Contains the validation logic for the VIT-AP registration form.
+ */
+
+function validateForm(event) {
+    // 1. Prevent default form submission initially
+    event.preventDefault(); 
+
+    // 2. Get form field values
+    let fullName = document.getElementById('fullName').value;
+    let email = document.getElementById('email').value;
+    let phone = document.getElementById('phone').value;
+    
+    // --- Validation Checks ---
+
+    // a. Full Name Check (Require at least two words/tokens)
+    if (fullName.trim().split(/\s+/).length < 2) {
+        alert("🔴 Please enter your full name (at least two words).");
+        return false; 
+    }
+
+    // b. Email Check (Ensure it has both @ and a dot, and the dot is after the @)
+    if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
+        alert("🔴 Please enter a valid email address (must contain '@' and '.').");
+        return false;
+    }
+    if (email.indexOf('.') < email.indexOf('@')) {
+         alert("🔴 Please ensure the dot (.) is correctly placed after the '@' in your email.");
+         return false;
+    }
+
+    // c. Phone Number Check (Ensure it contains only digits, 10-12 chars)
+    // Regex: ^[0-9]{10,12}$  -> Starts with digit, ends with digit, only digits in between, 10 to 12 total.
+    const phoneRegex = /^[0-9]{10,12}$/;
+    if (!phoneRegex.test(phone)) {
+         alert("🔴 Phone number must contain only digits and be 10 to 12 characters long.");
+         return false;
+    }
+
+    // --- If all checks pass ---
+    
+    // 3. Display success message
+    alert("✅ Registration Successful! Thank you for registering with VIT-AP.");
+
+    // 4. Clear the form fields
+    document.getElementById('registrationForm').reset();
+
+    // 5. Prevent actual form submission (since we are not sending data to a server)
+    return false;
+}
