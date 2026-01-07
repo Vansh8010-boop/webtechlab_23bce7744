@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head><title>Multimedia</title></head>
+<body>
+
+<h2>Audio Section</h2>
+<audio id="a" controls>
+  <source src="" type="audio/mp3">
+</audio>
+<p>Current Time: <span id="at">0</span>s</p>
+
+<h2>Video Section</h2>
+<video id="v" width="400" controls>
+  <source src="" type="video/mp4">
+</video>
+<p>Current Time: <span id="vt">0</span>s</p>
+
+<script>
+a.ontimeupdate=()=>at.innerText=a.currentTime.toFixed(1);
+v.ontimeupdate=()=>vt.innerText=v.currentTime.toFixed(1);
+</script>
+
+</body>
+</html>

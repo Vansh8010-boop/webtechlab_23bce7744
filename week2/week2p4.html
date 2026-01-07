@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>table,th,td{border:1px solid;padding:6px}</style>
+</head>
+<body>
+
+<h2>User Registration</h2>
+<input id="n" placeholder="Name"><br>
+<input id="e" placeholder="Email"><br>
+<input id="m" placeholder="Mobile"><br>
+<input id="p" placeholder="Password" type="password"><br>
+<button onclick="reg()">Register</button>
+
+<h2>Users</h2>
+<table id="tb">
+<tr><th>Name</th><th>Email</th><th>Mobile</th><th>Action</th></tr>
+</table>
+<button onclick="clr()">Clear All Users</button>
+
+<script>
+function load(){
+  tb.innerHTML=`<tr><th>Name</th><th>Email</th><th>Mobile</th><th>Action</th></tr>`;
+  const u=JSON.parse(localStorage.getItem("u")||"[]");
+  u.forEach((x,i)=>{
+    tb.innerHTML+=`<tr><td>${x.n}</td><td>${x.e}</td><td>${x.m}</td>
+    <td><button onclick="del(${i})">Delete</button></td></tr>`;
+  });
+}
+function reg(){
+  if(!n.value||!e.value||!m.value||!p.value){alert("All fields required");return}
+  if(m.value.length!==10||isNaN(m.value)){alert("Mobile must be 10 digits");return}
+  if(p.value.length<6){alert("Password ≥ 6 chars");return}
+  const u=JSON.parse(localStorage.getItem("u")||"[]");
+  if(u.some(x=>x.e===e.value)){alert("Duplicate email");return}
+  u.push({n:n.value,e:e.value,m:m.value,p:p.value});
+  localStorage.setItem("u",JSON.stringify(u));
+  n.value=e.value=m.value=p.value="";load();
+}
+function del(i){
+  const u=JSON.parse(localStorage.getItem("u")||"[]");
+  u.splice(i,1);localStorage.setItem("u",JSON.stringify(u));load();
+}
+function clr(){localStorage.setItem("u","[]");load()}
+load();
+</script>
+
+</body>
+</html>
